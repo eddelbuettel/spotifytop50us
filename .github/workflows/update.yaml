@@ -18,16 +18,16 @@ jobs:
       image: rocker/r2u:latest
       
     steps:
+      - name: System Dependencies
+        # we need git (which is not in rocker/r2u by default) to commit below
+        run: apt update -qq && apt install --yes --no-install-recommends git
+
       - name: Checkout
         uses: actions/checkout@v4
         
       - name: SessionInfo
         run: R -q -e 'sessionInfo()'
         
-      - name: System Dependencies
-        # we need git (which is not in rocker/r2u by default) to commit below
-        run: apt update -qq && apt install --yes --no-install-recommends git
-
       - name: Package Dependencies
         # this takes advantage of r2u to install the named CRAN packages as binaries
         run: install.r tinyspotifyr hrbrthemes ggplot2 anytime data.table
