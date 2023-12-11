@@ -28,6 +28,10 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Ownership
+        # unclear why this is needed but initial action runs complained
+        run: git config --global --add safe.directory /__w/spotifytop50us/spotifytop50us
         
       - name: SessionInfo
         run: R -q -e 'sessionInfo()'
