@@ -16,6 +16,10 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: rocker/r2u:latest
+
+    permissions:
+      # Give default GITHUB_TOKEN write permission to commit and push the changed files back to repo.
+      contents: write
       
     steps:
       - name: System Dependencies
