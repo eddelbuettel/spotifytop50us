@@ -16,10 +16,11 @@ D2w <- D[dt >= max(dt)-14,]                             # subset to last two wee
 D2w[, meanpos := mean(pos), by=song_artist]             # compute 'average' position
 D2w[, cnt := nrow(.SD), by=name]                        # count of Top50 appearances
 
-D2w <- D2w[order(meanpos)] 				# order by average position
-D2w[, song_artist := as.ordered(song_artist)]           # make song_artist an ordered factor
-
-crit <- max(head(unique(D2w[,meanpos]), 9)) 		# cut-off to include top nine
+song_artist_sorted <- D2w[, .(meanpos=unique(meanpos)), by=song_artist][order(meanpos),song_artist]
+D2w[, song_artist := factor(as.character(song_artist),  # make song_artist an ordered factor
+                            levels = song_artist_sorted,
+                            ordered = TRUE)]
+crit <- max(head(unique(D2w[order(meanpos),meanpos]), 9)) # cut-off to include top nine
 
 p <- ggplot(data=D2w[meanpos <= crit]) +
     aes(x=dt, y=pos, colour=song_artist) +
