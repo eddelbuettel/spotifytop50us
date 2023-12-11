@@ -1,0 +1,53 @@
+# Simple action to fetch data, update chart and commit changes
+# Uses r2u container for ease of R package installation
+
+name: update
+
+on:
+  #push:
+  #  branches: [main, master]
+  #release:
+  schedule:
+  - cron: "31 13 * * *"
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    container:
+      image: rocker/r2u:latest
+      
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: SessionInfo
+        run: R -q -e 'sessionInfo()'
+        
+      - # name: System Dependencies
+        # nothing needed here
+        # run: apt update -qq && apt install --yes --no-install-recommends ...
+        
+      - name: Package Dependencies
+        # this takes advantage of r2u to install the named CRAN packages as binaries
+        run: install.r tinyspotifyr hrbrthemes ggplot2 anytime data.table
+        
+      - name: Update Data
+        env:
+          SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
+          SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
+        run: Rscript scripts/top50fetch.R
+        
+      - name: Update Chart
+        run: Rscript scripts/top50chart.R
+        
+      - name: Commit and push
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: '["graphs/top50us.png", "data/top50.csv", "data/top50.rds"]'
+          push: true
+          default_author: github_actions
+          message: 'Update graphs and data'
+        
+
+        

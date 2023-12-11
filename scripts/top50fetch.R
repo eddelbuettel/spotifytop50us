@@ -15,7 +15,7 @@ nameslist <- lapply(artistslist, "[[", "name")          # extract the 'name' fie
 namesstrlst <- lapply(nameslist, paste, collapse=",")   # collpase lists into single string
 names <- sapply(namesstrlst, c)                         # concatenate into vector
 
-dd <- data.frame(date = Sys.time(), 			# time of request
+dd <- data.frame(date = format(Sys.time()),		# time of request
                  pos = seq(1, 50),              	# simple sequence
                  id = items$track.id, 			# track id
                  artists = names,         		# one or more artists listed

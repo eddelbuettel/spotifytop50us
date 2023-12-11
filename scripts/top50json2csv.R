@@ -1,7 +1,5 @@
 #!/usr/bin/env Rscript
 
-library(RcppSimdJson)
-
 url <- "https://raw.githubusercontent.com/brianckeegan/SpotifyUSTop50/main/top50.json"
 res <- jsonlite::fromJSON(url) 	# load and parses into list of data.frame objects
 

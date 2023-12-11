@@ -23,7 +23,7 @@ crit <- max(head(unique(D2w[,meanpos]), 9)) 		# cut-off to include top nine
 
 p <- ggplot(data=D2w[meanpos <= crit]) +
     aes(x=dt, y=pos, colour=song_artist) +
-    geom_line(size=1.25) +
+    geom_line(linewidth=1.25) +
     facet_wrap(~ song_artist) +
     hrbrthemes::theme_ipsum_rc() +
     theme(legend.position="none") +
