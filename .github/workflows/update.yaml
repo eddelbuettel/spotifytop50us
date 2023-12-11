@@ -24,9 +24,9 @@ jobs:
       - name: SessionInfo
         run: R -q -e 'sessionInfo()'
         
-      - # name: System Dependencies
-        # nothing needed here
-        # run: apt update -qq && apt install --yes --no-install-recommends ...
+      # - name: System Dependencies
+      #   nothing needed here
+      #   run: apt update -qq && apt install --yes --no-install-recommends ...
         
       - name: Package Dependencies
         # this takes advantage of r2u to install the named CRAN packages as binaries
