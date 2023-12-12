@@ -8,7 +8,7 @@ on:
   #  branches: [main, master]
   #release:
   schedule:
-  - cron: "31 13 * * *"
+  - cron: "31 10 * * *"
   workflow_dispatch:
 
 jobs:
@@ -37,8 +37,8 @@ jobs:
         run: R -q -e 'sessionInfo()'
         
       - name: Package Dependencies
-        # this takes advantage of r2u to install the named CRAN packages as binaries
-        run: install.r tinyspotifyr hrbrthemes ggplot2 anytime data.table
+        # this takes advantage of r2u to install the named CRAN packages as # binaries, plus one GH repo
+        run: install.r tinyspotifyr ggplot2 anytime data.table && installGithub.r eddelbuettel/tinythemes
         
       - name: Update Data
         env:
