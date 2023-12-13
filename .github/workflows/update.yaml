@@ -37,6 +37,8 @@ jobs:
         run: R -q -e 'sessionInfo()'
         
       - name: Package Dependencies
+        env:
+          GITHUB_PAT: ${{ secrets.PAT }}
         # this takes advantage of r2u to install the named CRAN packages as # binaries, plus one GH repo
         run: install.r tinyspotifyr ggplot2 anytime data.table && installGithub.r eddelbuettel/tinythemes
         
