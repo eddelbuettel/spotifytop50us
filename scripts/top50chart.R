@@ -14,14 +14,15 @@ setDT(D)
 D[, song_artist := paste0(artists, "\n", name)] # prettier song + artist string
 D[, dt := anytime::anydate(date)]               # use just the date
 
-D2w <- D[dt >= max(dt)-14,]                     # subset to last two weeks
+D2w <- D[dt > max(dt) - 14,]                    # subset to last two weeks
 D2w[, meanpos := mean(pos), by=song_artist]     # compute 'average' position
 D2w[, cnt := .N, by=song_artist]            	# count of Top50 appearances
 
 D2w <- D2w[cnt >= 4][order(meanpos),]		# subset, sort, ensure song_artist is ordered factor
 D2w[, song_artist := ordered(song_artist, levels=unique(song_artist))]
 
-crit <- D2w[order(meanpos), unique(meanpos)][9] # cut-off to include top nine
+ 						# cut-off to include top nine, allowing ties
+crit <- D2w[order(meanpos), .(meanpos=head(meanpos,1)), by=song_artist][1:9, max(meanpos)]
 
 p <- ggplot(data=D2w[meanpos <= crit]) +
     aes(x=dt, y=pos, colour=song_artist) +
@@ -33,7 +34,8 @@ p <- ggplot(data=D2w[meanpos <= crit]) +
     xlab("Date") + ylab("Top 50 Position") +
     labs(title = "Spotify 'Top 50' in the US: Top Nine Songs in the Last Fourteen Days",
          subtitle = paste("Songs ranked by average 'Top 50' position over last two",
-                          "weeks up to and including", format(D2w[, max(dt)], "%B %d"),
+                          "weeks up spanning", format(D2w[, min(dt)], "%B %d"),
+                          "to", format(D2w[, max(dt)], "%B %d"),
                           "and subject to at least 4 appearances"),
          caption = paste("Initial data from https://github.com/brianckeegan/SpotifyUSTop50/; ",
                          "more recent data and graphics from",
