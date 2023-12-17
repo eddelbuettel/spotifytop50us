@@ -14,33 +14,29 @@ on:
 jobs:
   update:
     runs-on: ubuntu-latest
-    container:
-      image: rocker/r2u:latest
 
     permissions:
       # Give default GITHUB_TOKEN write permission to commit and push the changed files back to repo.
       contents: write
       
     steps:
-      - name: System Dependencies
-        # we need git (which is not in rocker/r2u by default) to commit below
-        run: apt update -qq && apt install --yes --no-install-recommends git
 
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Ownership
-        # unclear why this is needed but initial action runs complained
-        run: git config --global --add safe.directory /__w/spotifytop50us/spotifytop50us
+      - name: Setup r2u
+        uses: eddelbuettel/github-actions/r2u-setup@master
         
       - name: SessionInfo
         run: R -q -e 'sessionInfo()'
         
       - name: Package Dependencies
-        env:
-          GITHUB_PAT: ${{ secrets.PAT }}
-        # this takes advantage of r2u to install the named CRAN packages as # binaries, plus one GH repo
-        run: install.r tinyspotifyr ggplot2 anytime data.table && installGithub.r eddelbuettel/tinythemes
+        # takes advantage of r2u to install the named CRAN packages as binaries
+        # plus one (small) package from my r-universe as a Ubuntu 'jammy' binary
+        # in the r2u context we could also use scripts 'install.r' and # 'installRub.r', respectively
+        run: |
+          Rscript -e 'install.packages(c("tinyspotifyr", "ggplot2", "anytime", "data.table"))'
+          Rscript -e 'install.packages("tinythemes", repos=c("https://eddelbuettel.r-universe.dev/bin/linux/jammy/4.3/", getOption("repos")))'
         
       - name: Update Data
         env:
