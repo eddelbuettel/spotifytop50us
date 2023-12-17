@@ -27,7 +27,7 @@ From R this works via a pair of environment variables along with a (one-time) br
 
 ### Author
 
-This repository and its code put together by Dirk Eddelbuettel.
+This repository and its code have been put together by Dirk Eddelbuettel.
 
 ### License
 
