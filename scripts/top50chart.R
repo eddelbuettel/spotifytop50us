@@ -14,7 +14,7 @@ setDT(D)
 D[, song_artist := paste0(artists, "\n", name)] # prettier song + artist string
 D[, dt := anytime::anydate(date)]               # use just the date
 
-D2w <- D[dt > max(dt) - 14,]                    # subset to last two weeks
+D2w <- D[dt > max(dt) - 21,]                    # subset to last three weeks
 D2w[, meanpos := mean(pos), by=song_artist]     # compute 'average' position
 D2w[, cnt := .N, by=song_artist]            	# count of Top50 appearances
 
@@ -32,8 +32,8 @@ p <- ggplot(data=D2w[meanpos <= crit]) +
     tinythemes::theme_ipsum_rc() +
     theme(legend.position="none") +
     xlab("Date") + ylab("Top 50 Position") +
-    labs(title = "Spotify 'Top 50' in the US: Top Nine Songs in the Last Fourteen Days",
-         subtitle = paste("Songs ranked by average 'Top 50' position over last two",
+    labs(title = "Spotify 'Top 50' in the US: Top Nine Songs in the Last Twentyone Days",
+         subtitle = paste("Songs ranked by average 'Top 50' position over last three",
                           "weeks up spanning", format(D2w[, min(dt)], "%B %d"),
                           "to", format(D2w[, max(dt)], "%B %d"),
                           "and subject to at least 4 appearances"),
