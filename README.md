@@ -1,12 +1,12 @@
 ## spotifytop50us -- Show Recent Top Hits in the US
 
-This repository provides a simple illustration of how to _automate_ a simple data science or statistics task via GitHub Actions.
+This repository illustrates how to _automate_ a data science or statistics task via GitHub Actions.
 
 ![](https://eddelbuettel.github.io/spotifytop50us/graphs/top50us.png)
 
 ### Motivation
 
-A [toot by Brian Keegan](https://mastodon.social/@bkeegan@hci.social/111529520117166799) described the basic idea, [his repo](https://github.com/brianckeegan/SpotifyUSTop50/) contains a basic implementation (in Python, but without chart generation when I checked).  
+A [toot by Brian Keegan](https://mastodon.social/@bkeegan@hci.social/111529520117166799) described the basic idea, [his repo](https://github.com/brianckeegan/SpotifyUSTop50/) contains a basic implementation (in Python, but without chart generation when I checked). 
 As this provides a nice example for use in, for example, my [STAT 447](https://stat447.com) class I decided to build on it.
 
 ### Thanks
@@ -20,10 +20,15 @@ Thanks to
 
 ### Setup
 
-Getting started with a RESTful API such the [Spotify Web API](https://developer.spotify.com/documentation/web-api) can be tricky.
-Please consult one the existing CRAN packages for details.
-You need to register an 'app' on their site in order to be authorized and get an access token.
-From R this works via a pair of environment variables along with a (one-time) browser-based callback to align with your normal login to bless these credentials. 
+Getting started with a RESTful API such the [Spotify Web
+API](https://developer.spotify.com/documentation/web-api) can be tricky.
+Please consult one the existing CRAN packages
+(i.e. [tinyspotifyr](https://cran.r-project.org/package=tinyspotifyr) or
+[spotifyr](https://cran.r-project.org/package=spotifyr)) for details.  You
+need to register an 'app' on their site in order to be authorized and get an
+access token.  From R this works via a pair of environment variables along
+with a (one-time) browser-based callback to align with your normal login to
+bless these credentials.
 
 ### Author
 
