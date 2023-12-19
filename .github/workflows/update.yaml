@@ -32,11 +32,8 @@ jobs:
         
       - name: Package Dependencies
         # takes advantage of r2u to install the named CRAN packages as binaries
-        # plus one (small) package from my r-universe as a Ubuntu 'jammy' binary
-        # in the r2u context we could also use scripts 'install.r' and # 'installRub.r', respectively
-        run: |
-          Rscript -e 'install.packages(c("tinyspotifyr", "ggplot2", "anytime", "data.table"))'
-          Rscript -e 'install.packages("tinythemes", repos=c("https://eddelbuettel.r-universe.dev/bin/linux/jammy/4.3/", getOption("repos")))'
+        # in the r2u context we could also use script 'install.r' 
+        run: Rscript -e 'install.packages(c("tinyspotifyr", "ggplot2", "anytime", "data.table", "tinythemes"))'
         
       - name: Update Data
         env:
