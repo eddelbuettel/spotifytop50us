@@ -14,13 +14,13 @@ setDT(D)
 D[, song_artist := paste0(artists, "\n", name)] # prettier song + artist string
 D[, dt := anytime::anydate(date)]               # use just the date
 
-makeChart <- function(days = 21) {
+makeChart <- function(days = 28, keep = 7) {
     days <- match.arg(as.character(days), c("7", "14", "21", "28"))
     D2 <- D[dt > max(dt) - as.integer(days),]   # subset to selected window
     D2[, meanpos := mean(pos), by=song_artist]  # compute 'average' position
     D2[, cnt := .N, by=song_artist]             # count of Top50 appearances
 
-    D2 <- D2[cnt >= 4][order(meanpos),]		# subset, sort, ensure song_artist is ordered factor
+    D2 <- D2[cnt >= keep][order(meanpos),]	# subset, sort, ensure song_artist is ordered factor
     D2[, song_artist := ordered(song_artist, levels=unique(song_artist))]
 
  						# cut-off to include top nine, allowing ties
@@ -39,7 +39,7 @@ makeChart <- function(days = 21) {
         labs(title = paste("Spotify 'Top 50' in the US: Top Nine Songs in the Last", ndays, "Days"),
              subtitle = paste("Songs ranked by average 'Top 50' position over last", nweeks,
                               "spanning", format(D2[, min(dt)], "%B %d"), "to", format(D2[, max(dt)], "%B %d"),
-                              "and subject to at least 4 appearances"),
+                              "and subject to at least", keep, "appearances"),
              caption = paste("Initial data from https://github.com/brianckeegan/SpotifyUSTop50/; ",
                              "more recent data and graphics from",
                              "https://github.com/eddelbuettel/spotifytop50us.",
