@@ -18,17 +18,18 @@ makeChart <- function(days = 28, keep = 7) {
     days <- match.arg(as.character(days), c("7", "14", "21", "28"))
     D2 <- D[dt > max(dt) - as.integer(days),]   # subset to selected window
     D2[, meanpos := mean(pos), by=song_artist]  # compute 'average' position
+    D2[, lastpos := tail(pos,1), by=song_artist]# compute 'last' position
     D2[, cnt := .N, by=song_artist]             # count of Top50 appearances
 
     D2 <- D2[cnt >= keep][order(meanpos),]	# subset, sort, ensure song_artist is ordered factor
     D2[, song_artist := ordered(song_artist, levels=unique(song_artist))]
 
- 						# cut-off to include top nine, allowing ties
-    crit <- D2[order(meanpos), .(meanpos=head(meanpos,1)), by=song_artist][1:9, max(meanpos)]
+                                                # sort by meanpos and lastpos (to break ties), pick top nine
+    songs <- as.character(D2[order(meanpos), .(meanpos=head(meanpos,1),lastpos=head(lastpos,1)), by=song_artist][order(meanpos,lastpos)][1:9, song_artist])
     ndays <- switch(days, "7" = "Seven", "14" = "Fourteen", "21" = "Twentyone", "28" = "Twentyeight")
     nweeks <- switch(days, "7" = "one week", "14" = "two weeks", "21" = "three weeks", "28" = "four weeks")
 
-    p <- ggplot(data=D2[meanpos <= crit]) +
+    p <- ggplot(D2[song_artist %in% songs]) +
         aes(x=dt, y=pos, colour=song_artist) +
         geom_step(linewidth=1.0) +
         facet_wrap(~ song_artist) +
