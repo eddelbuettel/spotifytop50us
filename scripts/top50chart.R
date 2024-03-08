@@ -12,6 +12,7 @@ D <- readRDS("data/top50.rds")
 setDT(D)
 
 D[, song_artist := paste0(artists, "\n", name)] # prettier song + artist string
+D[, song_artist := tail(song_artist,1), by=id]  # sometimes artists names are messed up / change
 D[, dt := anytime::anydate(date)]               # use just the date
 
 makeChart <- function(days = 28, keep = 7) {
