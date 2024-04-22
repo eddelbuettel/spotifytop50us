@@ -43,11 +43,17 @@ jobs:
         
       - name: Update Chart
         run: Rscript scripts/top50chart.R
+
+      - name: Install graphicsmagick
+        run: sudo apt install --yes graphicsmagick
+
+      - name: Create Movie
+        run: scripts/movie_last_100_days.sh
         
       - name: Commit and push
         uses: EndBug/add-and-commit@v9
         with:
-          add: '["graphs/top50us.png", "data/top50.csv", "data/top50.rds"]'
+          add: '["graphs/top50us.png", "data/top50.csv", "data/top50.rds", "graphs/movie_last_n_days.gif"]'
           push: true
           default_author: github_actions
           message: 'Update graphs and data'
