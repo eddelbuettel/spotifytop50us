@@ -25,6 +25,9 @@ done
 ## the CRAN package imagemagick allows this from R too
 gm convert -delay 20 ${graphdir}/*.png graphs/movie_last_n_days.gif
 
+## restore today's (not yet committed) file
+cp -vax ${graphdir}/top50us_1100.png graphs/top50us.png
+
 rm -rf ${graphdir}
 
 ## not really needed in github action: restore to last commit of chart
