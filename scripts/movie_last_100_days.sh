@@ -5,12 +5,14 @@ if [ ! -d ${graphdir} ]; then
     mkdir ${graphdir}
 fi
 
-## We retrieve the last 99 committed ones -- plus the current (not yet committed) one
+## We retrieve the last 99 committed ones
 N=99
+## Plus the current (not yet committed) one
 cp -vax graphs/top50us.png ${graphdir}/top50us_1100.png
 
-## get all commits, use top N, and reverse
-commits=$(git log --oneline graphs/top50us.png | awk '{print $1}' | head -${N} | tac)
+## get all commits in reverse order (oldest first), use top N
+## also:  git log --reverse --pretty=format:"%h %as" graphs/top50us.png
+commits=$(git log --reverse --oneline graphs/top50us.png | awk '{print $1}' | head -${N})
 
 ## start at 1000 to always have four digits, also count backwards to reverse order of commits
 counter=1000
@@ -25,11 +27,11 @@ done
 ## the CRAN package imagemagick allows this from R too
 gm convert -delay 20 ${graphdir}/*.png graphs/movie_last_n_days.gif
 
+## not really needed in github action: restore to last commit of chart
+git restore --staged graphs/top50us.png
+git restore graphs/top50us.png
+
 ## restore today's (not yet committed) file
 cp -vax ${graphdir}/top50us_1100.png graphs/top50us.png
 
 rm -rf ${graphdir}
-
-## not really needed in github action: restore to last commit of chart
-git restore --staged graphs/top50us.png
-git restore graphs/top50us.png
