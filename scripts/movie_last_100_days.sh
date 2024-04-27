@@ -12,7 +12,7 @@ cp -vax graphs/top50us.png ${graphdir}/top50us_1100.png
 
 ## get all commits in reverse order (oldest first), use top N
 ## also:  git log --reverse --pretty=format:"%h %as" graphs/top50us.png
-commits=$(git log --reverse --oneline graphs/top50us.png | awk '{print $1}' | head -${N})
+commits=$(git log --reverse --oneline graphs/top50us.png | awk '{print $1}' | tail -${N})
 
 ## start at 1000 to always have four digits, also count backwards to reverse order of commits
 counter=1000
