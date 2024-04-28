@@ -4,6 +4,10 @@ This repository illustrates how to _automate_ a data science or statistics task 
 
 ![](https://eddelbuettel.github.io/spotifytop50us/graphs/top50us.png)
 
+We also provide a 'movie' collating the one hundred most recent images as an aninmated gif:
+
+![](https://eddelbuettel.github.io/spotifytop50us/graphs/movie_last_n_days.gif)
+
 ### Motivation
 
 A [toot by Brian Keegan](https://mastodon.social/@bkeegan@hci.social/111529520117166799) described the basic idea, [his repo](https://github.com/brianckeegan/SpotifyUSTop50/) contains a basic implementation (in Python, but without chart generation when I checked). 
