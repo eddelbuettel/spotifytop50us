@@ -1,5 +1,10 @@
 ## spotifytop50us -- Show Recent Top Hits in the US
 
+**Note:** As of November 27, 2024, the 'global top 50' API endpoint is no
+longer provided by Spotify to this worked example is no longer operational
+which is rather sad. So the repository no longer updates each night.
+
+
 This repository illustrates how to _automate_ a data science or statistics task via GitHub Actions.
 
 ![](https://eddelbuettel.github.io/spotifytop50us/graphs/top50us.png)
